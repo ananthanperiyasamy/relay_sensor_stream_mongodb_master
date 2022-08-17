@@ -1,0 +1,141 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8082
+    description: Generated server url
+paths:
+  /create/user:
+    post:
+      tags:
+        - user-controller
+      summary: Create new user
+      operationId: createNewUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserData'
+        required: true
+      responses:
+        '200':
+          description: ' User created sccessfully'
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Invalid input. Login data are not correct format.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /authenticate:
+    post:
+      tags:
+        - user-controller
+      summary: Get JWT token.
+      operationId: createAuthenticationToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+        required: true
+      responses:
+        '200':
+          description: ' Success and return token.'
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input. Login data are not correct format.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        '500':
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                type: object
+  /query/{operation}:
+    get:
+      tags:
+        - sensor-rest-controller
+      summary: Perform query operation on sensor data.
+      operationId: performOperation
+      parameters:
+        - name: operation
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: queryDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '201':
+          description: ' Result of the operation.'
+          content:
+            '*/*':
+              schema:
+                type: number
+        '400':
+          description: Invalid input. Dates are mandatory and check date format.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        '416':
+          description: Data for the requested range is not found
+          content:
+            '*/*':
+              schema:
+                type: number
+components:
+  schemas:
+    UserData:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    JwtRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    QueryRequest:
+      required:
+        - endDateTime
+        - startDateTime
+      type: object
+      properties:
+        startDateTime:
+          type: string
+          description: Start date time to filter the data.
+        endDateTime:
+          type: string
+          description: End date time to filter the data.
+        eventType:
+          type: string
+          description: Type of event.
+        clusterId:
+          type: integer
+          description: Cluster id.
+          format: int64
