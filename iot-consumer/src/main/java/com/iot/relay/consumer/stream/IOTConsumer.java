@@ -3,8 +3,8 @@ package com.iot.relay.consumer.stream;
 import java.util.function.Consumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import com.iot.relay.consumer.service.SensorDataService;
-import com.iot.relay.model.SensorData;
+import com.iot.relay.consumer.service.IOTEventService;
+import com.iot.relay.model.IOTData;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IOTConsumer {
 
-	private SensorDataService sensorDataService;
+	private IOTEventService iotEventService;
 
 	@Bean
-	public Consumer<SensorData> iotdata() {
+	public Consumer<IOTData> iotdata() {
 		log.info("Listerner started");
-		return (sensorData -> {
-			sensorDataService.save(sensorData);
+		return (iotdata -> {
+			iotEventService.save(iotdata);
 		});
 	}
 }

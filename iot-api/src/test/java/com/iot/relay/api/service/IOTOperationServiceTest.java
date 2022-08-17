@@ -19,9 +19,9 @@ import com.iot.relay.api.request.QueryRequest;
  * @author Ananthan Periyasamy
  */
 @ExtendWith(MockitoExtension.class)
-public class SensorOperationServiceTest {
+public class IOTOperationServiceTest {
 	@Mock
-	private SensorOperationService sensorOperation;
+	private IOTOperationService sensorOperation;
 
 	@Test
 	public void testExecuteSuccess() {

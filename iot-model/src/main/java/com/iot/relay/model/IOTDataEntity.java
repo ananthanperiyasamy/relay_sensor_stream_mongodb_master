@@ -7,14 +7,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
-import com.iot.relay.constants.SensorConstant;
+import com.iot.relay.constants.IOTConstant;
 import lombok.Builder;
 import lombok.Data;
 
-@Document(collection = SensorConstant.SENSOR_COLLECTION_NAME)
+@Document(collection = IOTConstant.SENSOR_COLLECTION_NAME)
 @Data
 @Builder
-public class SensorDataEntity {
+public class IOTDataEntity {
 
 	@Id
 	@Builder.Default

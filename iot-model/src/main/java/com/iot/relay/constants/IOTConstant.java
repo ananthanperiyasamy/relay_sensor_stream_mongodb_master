@@ -1,6 +1,6 @@
 package com.iot.relay.constants;
 
-public class SensorConstant {
+public class IOTConstant {
 	
 	 public static final String SENSOR_COLLECTION_NAME = "sensorData_entity";
 	 

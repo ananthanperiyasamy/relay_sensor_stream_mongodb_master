@@ -3,11 +3,11 @@ package com.iot.relay.model;
 import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.iot.relay.constants.SensorConstant;
+import com.iot.relay.constants.IOTConstant;
 import lombok.Builder;
 import lombok.Data;
 
-@Document(collection = SensorConstant.USER_COLLECTION_NAME)
+@Document(collection = IOTConstant.USER_COLLECTION_NAME)
 @Data
 @Builder
 public class UserDataEntity {

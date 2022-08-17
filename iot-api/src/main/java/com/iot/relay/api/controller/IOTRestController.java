@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.iot.relay.api.request.QueryRequest;
-import com.iot.relay.api.service.SensorOperationService;
+import com.iot.relay.api.service.IOTOperationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,9 +25,9 @@ import lombok.AllArgsConstructor;
 @CrossOrigin
 @RequestMapping("query/")
 @AllArgsConstructor
-public class SensorRestController {
+public class IOTRestController {
 
-	private SensorOperationService sensorOperationService;
+	private IOTOperationService sensorOperationService;
 
 	@Operation(summary = "Perform query operation on sensor data.")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = " Result of the operation."),

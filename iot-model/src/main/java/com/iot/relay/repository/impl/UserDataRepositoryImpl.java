@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
-import com.iot.relay.constants.SensorConstant;
+import com.iot.relay.constants.IOTConstant;
 import com.iot.relay.exception.SensorCustomException;
 import com.iot.relay.model.UserDataEntity;
 import com.iot.relay.repository.UserDataRepositoryCustom;
@@ -38,7 +38,7 @@ public class UserDataRepositoryImpl implements UserDataRepositoryCustom {
 
 		Aggregation aggregation = Aggregation.newAggregation(operationsList);
 		AggregationResults<UserDataEntity> aggregationResults = mongoTemplate.aggregate(aggregation,
-				SensorConstant.USER_COLLECTION_NAME, UserDataEntity.class);
+				IOTConstant.USER_COLLECTION_NAME, UserDataEntity.class);
 		if (aggregationResults.getMappedResults().isEmpty()) {
 			throw new SensorCustomException("Result not found");
 		} else {

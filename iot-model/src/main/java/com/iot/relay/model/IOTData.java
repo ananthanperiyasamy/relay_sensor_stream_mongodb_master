@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 import lombok.Data;
 
 @Data
-public class SensorData {
+public class IOTData {
 
 	private Long id;
 

@@ -38,16 +38,16 @@ import com.iot.relay.api.IotApiApplication;
 import com.iot.relay.api.config.JwtTokenUtil;
 import com.iot.relay.api.request.QueryRequest;
 import com.iot.relay.api.service.JwtUserDetailsService;
-import com.iot.relay.api.service.SensorOperationService;
+import com.iot.relay.api.service.IOTOperationService;
 import com.iot.relay.config.MongoConfiguration;
 
 @WebMvcTest(properties = { "spring.profiles.active=test", "local.server.port=27017" })
 @AutoConfigureDataMongo
 @AutoConfigureMockMvc
-public class SensorRestControllerTest {
+public class IOTRestControllerTest {
 
 	@Autowired
-	private SensorOperationService sensorOperationService;
+	private IOTOperationService sensorOperationService;
 
 	@Autowired
 	private MockMvc mvc;

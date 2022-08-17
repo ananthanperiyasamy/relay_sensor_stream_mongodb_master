@@ -19,30 +19,28 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.iot.relay.config.MongoConfiguration;
-import com.iot.relay.constants.SensorConstant;
-import com.iot.relay.model.SensorDataEntity;
-import com.iot.relay.repository.SensorDataRepository;
+import com.iot.relay.constants.IOTConstant;
+import com.iot.relay.model.IOTDataEntity;
+import com.iot.relay.repository.IOTDataRepository;
 
 @DataMongoTest(properties = { "spring.profiles.active=test", "local.server.port=27017" })
 @AutoConfigureDataMongo
 @Import(MongoConfiguration.class)
-public class SensorDataRepositoryTest {
-
-	private List<String> mongoIds = new ArrayList<>();
+public class IOTDataRepositoryTest {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	@Autowired
-	private SensorDataRepository sensorDataRepository;
+	private IOTDataRepository sensorDataRepository;
 
 	@BeforeEach
 	public void initDataBase() {
-		createSensorDataEntities().stream().map(entity -> entity.getUuid()).collect(Collectors.toList());
+		createSensorDataEntities();
 	}
 
 	@AfterEach
 	public void deleteDataBase() {
-		sensorDataRepository.deleteAllById(mongoIds);
+		sensorDataRepository.deleteAll();
 	}
 
 	/**
@@ -52,9 +50,9 @@ public class SensorDataRepositoryTest {
 
 	@Test
 	public void findMinValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.findMinValueByClusterIdAndTypeAndTimestamp(1l, "HUMIDITY",
+		BigDecimal result = sensorDataRepository.fetchMinimumValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
-				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"));
+				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MINIMUM);
 		assertEquals(result.toString(), "111111", "result should be 1");
 
 	}
@@ -66,9 +64,9 @@ public class SensorDataRepositoryTest {
 
 	@Test
 	public void findMaxValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.findMaxValueByClusterIdAndTypeAndTimestamp(1l, "HUMIDITY",
+		BigDecimal result = sensorDataRepository.fetchMaximumValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
-				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"));
+				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MAXIMUM);
 		assertEquals(result.toString(), "444444", "result should be 4");
 
 	}
@@ -80,10 +78,10 @@ public class SensorDataRepositoryTest {
 
 	@Test
 	public void findAverageValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.findAvgValueByClusterIdAndTypeAndTimestamp(1l, "HUMIDITY",
+		BigDecimal result = sensorDataRepository.fetchAverageValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
-				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"));
-		assertEquals(result.toString(), "277778", "result should be 1");
+				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_AVERAGE);
+		assertEquals(result.toString(), "277777.5");
 
 	}
 
@@ -94,10 +92,10 @@ public class SensorDataRepositoryTest {
 
 	@Test
 	public void findMedianValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.findMedianValueByClusterIdAndTypeAndTimestamp(1l, "HUMIDITY",
+		BigDecimal result = sensorDataRepository.fetchMedianValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
-				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"));
-		assertEquals(result.toString(), "333333", "result should be 1");
+				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MEDIAN);
+		assertEquals(result.toString(), "333333");
 
 	}
 
@@ -106,31 +104,31 @@ public class SensorDataRepositoryTest {
 	 * 
 	 * @return
 	 */
-	private List<SensorDataEntity> createSensorDataEntities() {
-		List<SensorDataEntity> entities = new ArrayList<>();
-		SensorDataEntity entity1 = SensorDataEntity.builder().id(1l).clusterId(1l).type("HUMIDITY")
+	private List<IOTDataEntity> createSensorDataEntities() {
+		List<IOTDataEntity> entities = new ArrayList<>();
+		IOTDataEntity entity1 = IOTDataEntity.builder().id(1l).clusterId(1l).type("HUMIDITY")
 				.name("Living Room Temp").value(new BigDecimal("111111"))
 				.timestamp(OffsetDateTime.parse("2022-08-13T12:18:55.999998Z")).build();
 
-		SensorDataEntity entity2 = SensorDataEntity.builder().id(2l).clusterId(1l).type("HUMIDITY")
+		IOTDataEntity entity2 = IOTDataEntity.builder().id(2l).clusterId(1l).type("HUMIDITY")
 				.name("Living Room Temp").value(new BigDecimal("222222"))
 				.timestamp(OffsetDateTime.parse("2022-08-13T12:18:55.999998Z")).build();
 
-		SensorDataEntity entity3 = SensorDataEntity.builder().id(3l).clusterId(1l).type("HUMIDITY")
+		IOTDataEntity entity3 = IOTDataEntity.builder().id(3l).clusterId(1l).type("HUMIDITY")
 				.name("Living Room Temp").value(new BigDecimal("333333"))
 				.timestamp(OffsetDateTime.parse("2022-08-13T12:18:55.999998Z")).build();
 
-		SensorDataEntity entity4 = SensorDataEntity.builder().id(4l).clusterId(1l).type("HUMIDITY")
+		IOTDataEntity entity4 = IOTDataEntity.builder().id(4l).clusterId(1l).type("HUMIDITY")
 				.name("Living Room Temp").value(new BigDecimal("444444"))
 				.timestamp(OffsetDateTime.parse("2022-08-13T12:18:55.999998Z")).build();
 		entities.add(entity1);
 		entities.add(entity2);
 		entities.add(entity3);
 		entities.add(entity4);
-		mongoTemplate.save(entity1, SensorConstant.SENSOR_COLLECTION_NAME);
-		mongoTemplate.save(entity2, SensorConstant.SENSOR_COLLECTION_NAME);
-		mongoTemplate.save(entity3, SensorConstant.SENSOR_COLLECTION_NAME);
-		mongoTemplate.save(entity4, SensorConstant.SENSOR_COLLECTION_NAME);
+		mongoTemplate.save(entity1, IOTConstant.SENSOR_COLLECTION_NAME);
+		mongoTemplate.save(entity2, IOTConstant.SENSOR_COLLECTION_NAME);
+		mongoTemplate.save(entity3, IOTConstant.SENSOR_COLLECTION_NAME);
+		mongoTemplate.save(entity4, IOTConstant.SENSOR_COLLECTION_NAME);
 		return entities;
 	}
 }
