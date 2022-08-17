@@ -20,8 +20,12 @@ public class SensorDataMapper {
 	 * @return the entity to store it in database
 	 */
 	public SensorDataEntity fromEventToEntity(SensorData sensorData) {
-		return SensorDataEntity.builder().name(sensorData.getName()).id(sensorData.getId()).value(sensorData.getValue())
-				.type(sensorData.getType()).clusterId(sensorData.getClusterId())
+		return SensorDataEntity.builder()
+				.name(sensorData.getName())
+				.id(sensorData.getId())
+				.value(sensorData.getValue())
+				.type(sensorData.getType())
+				.clusterId(sensorData.getClusterId())
 				.timestamp(OffsetDateTime.parse(sensorData.getTimestamp())).build();
 	}
 

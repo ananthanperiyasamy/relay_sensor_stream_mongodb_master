@@ -7,15 +7,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
@@ -40,7 +34,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
 import com.iot.relay.api.IotApiApplication;
 import com.iot.relay.api.config.JwtTokenUtil;
 import com.iot.relay.api.request.QueryRequest;
@@ -48,26 +41,20 @@ import com.iot.relay.api.service.JwtUserDetailsService;
 import com.iot.relay.api.service.SensorOperationService;
 import com.iot.relay.config.MongoConfiguration;
 
-//@ExtendWith(SpringExtension.class)
 @WebMvcTest(properties = { "spring.profiles.active=test", "local.server.port=27017" })
 @AutoConfigureDataMongo
 @AutoConfigureMockMvc
 public class SensorRestControllerTest {
 
-	//@Autowired
-	//private SensorOperationService sensorOperationService;
+	@Autowired
+	private SensorOperationService sensorOperationService;
 
-	//@Autowired
-	//private MockMvc mvc;
-	// @MockBean
-	// private JwtDecoder jwtDecoder;
+	@Autowired
+	private MockMvc mvc;
 	
-	//@Autowired
-	//private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
-//	@Mock
-//	private JwtUserDetailsService WebSecurityConfig;
-//	
 	/**
 	 * Test to get minimum value of stored sensor data
 	 * 
@@ -75,17 +62,16 @@ public class SensorRestControllerTest {
 	 */
 	@Test
 	public void testMin() throws Exception {
-//		when(sensorOperationService.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
-//		final UserDetails userDetails = new User("ananthan", "password", new ArrayList<>());
-//		var tokenString = jwtTokenUtil.generateToken(userDetails);
-//		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-12-23", "2022-08-13", "1",
-//				"HUMIDITY");
-//
-//		MvcResult result = mvc
-//				.perform(get("/query/{1}", "min").header("Authorization", "Bearer " + tokenString).params(requestParams))
-//				.andReturn();
-//		MockHttpServletResponse response = result.getResponse();
-//		assertTrue(response.getContentAsString().contains("1"));
+		when(sensorOperationService.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
+		final UserDetails userDetails = new User("ananthan", "password", new ArrayList<>());
+		var tokenString = jwtTokenUtil.generateToken(userDetails);
+		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-12-23", "2022-08-13", "1",
+				"HUMIDITY");
+		MvcResult result = mvc
+				.perform(get("/query/{1}", "min").header("Authorization", "Bearer " + tokenString).params(requestParams))
+				.andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		assertTrue(response.getContentAsString().contains("1"));
 
 	}
 	
@@ -94,56 +80,53 @@ public class SensorRestControllerTest {
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testMaxSuccess() throws Exception {
-//		when(sensorOperationService.execute(anyString(), any(QueryRequest.class)))
-//				.thenReturn(new BigDecimal("12345.12345"));
-//		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-13", "2022-08-13", "1",
-//				"HUMIDITY");
-//
-//		MvcResult result = mvc
-//				.perform(
-//						get("/query/{1}", "min").with(SecurityMockMvcRequestPostProcessors.jwt()).params(requestParams))
-//				.andReturn();
-//		MockHttpServletResponse response = result.getResponse();
-//		assertTrue(response.getContentAsString().contains("12345.12345"));
-//		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
-//	}
+	@Test
+	public void testMaxSuccess() throws Exception {
+		when(sensorOperationService.execute(anyString(), any(QueryRequest.class)))
+				.thenReturn(new BigDecimal("12345.12345"));
+		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-13", "2022-08-13", "1",
+				"HUMIDITY");
+		MvcResult result = mvc
+				.perform(get("/query/{1}", "min").with(SecurityMockMvcRequestPostProcessors.jwt()).params(requestParams))
+				.andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		assertTrue(response.getContentAsString().contains("12345.12345"));
+		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
+	}
 
 	/**
 	 * Test to get average value of stored sensor data
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testAverageSuccess() throws Exception {
-//		when(sensorOperationService.execute(anyString(), any(QueryRequest.class)))
-//				.thenReturn(new BigDecimal("123.00012345"));
-//		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-13", "2022-08-13", "1",
-//				"HUMIDITY");
-//
-//		MvcResult result = mvc.perform(get("/query/{1}", "average").params(requestParams)).andReturn();
-//		MockHttpServletResponse response = result.getResponse();
-//		assertTrue(response.getContentAsString().contains("123.00012345"));
-//		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
-//	}
+	@Test
+	public void testAverageSuccess() throws Exception {
+		when(sensorOperationService.execute(anyString(), any(QueryRequest.class)))
+				.thenReturn(new BigDecimal("123.00012345"));
+		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-13", "2022-08-13", "1",
+				"HUMIDITY");
+
+		MvcResult result = mvc.perform(get("/query/{1}", "average").params(requestParams)).andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		assertTrue(response.getContentAsString().contains("123.00012345"));
+		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
+	}
 
 	/**
 	 * Test to get middle value of stored sensor data
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testMedianSuccess() throws Exception {
-//		when(sensorOperationService.execute(anyString(), any(QueryRequest.class))).thenReturn(new BigDecimal("123456"));
-//		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-01", "2021-08-13", "1",
-//				"HUMIDITY");
-//
-//		MvcResult result = mvc.perform(get("/query/{1}", "max").params(requestParams)).andReturn();
-//		MockHttpServletResponse response = result.getResponse();
-//		assertTrue(response.getContentAsString().contains("123456"));
-//		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
-//	}
+	@Test
+	public void testMedianSuccess() throws Exception {
+		when(sensorOperationService.execute(anyString(), any(QueryRequest.class))).thenReturn(new BigDecimal("123456"));
+		LinkedMultiValueMap<String, String> requestParams = createRequestParameters("2021-08-01", "2021-08-13", "1",
+				"HUMIDITY");
+		MvcResult result = mvc.perform(get("/query/{1}", "max").params(requestParams)).andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		assertTrue(response.getContentAsString().contains("123456"));
+		verify(sensorOperationService, times(1)).execute(anyString(), any(QueryRequest.class));
+	}
 
 	private LinkedMultiValueMap<String, String> createRequestParameters(String startDateTime, String endDateTime,
 			String clusterId, String eventType) {

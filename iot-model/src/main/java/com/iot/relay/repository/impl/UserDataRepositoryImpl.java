@@ -1,4 +1,4 @@
-package com.iot.relay.repo.impl;
+package com.iot.relay.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.iot.relay.constants.SensorConstant;
 import com.iot.relay.exception.SensorCustomException;
 import com.iot.relay.model.UserDataEntity;
-import com.iot.relay.repo.UserDataRepositoryCustom;
+import com.iot.relay.repository.UserDataRepositoryCustom;
 
 /**
  * User Repository class which store/fetch user details from DB

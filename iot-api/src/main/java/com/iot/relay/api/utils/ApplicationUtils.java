@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import com.iot.relay.constants.SensorConstant;
 import com.iot.relay.exception.SensorCustomException;
 
+import lombok.experimental.UtilityClass;
+@UtilityClass
 public class ApplicationUtils {
 
 	public static OffsetDateTime convertStringToOffsetDateTime(String dateString) throws SensorCustomException {

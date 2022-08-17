@@ -32,14 +32,12 @@ import com.iot.relay.api.config.JwtRequestFilter;
 import com.iot.relay.api.config.JwtTokenUtil;
 import com.iot.relay.api.request.QueryRequest;
 import com.iot.relay.model.SensorDataEntity;
-//import com.iot.relay.repo.SensorDataRepository;
-import com.iot.relay.repo.SensorDataRepository;
+import com.iot.relay.repository.SensorDataRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {
 		"spring.profiles.active=test" }, classes = IotApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureDataMongo
-//@ActiveProfiles(value = "test")
 public class APIIntegrationTest {
 
 	@LocalServerPort
@@ -52,14 +50,8 @@ public class APIIntegrationTest {
 	private SensorDataRepository sensorDataRepository;
 
 	@Autowired
-	WebTestClient webTestClient;
-
-	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
-	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
-
 	@Test
 	public void testMinWithClusterIdAndTypeSuccess() {
 		initTable(sensorDataRepository);

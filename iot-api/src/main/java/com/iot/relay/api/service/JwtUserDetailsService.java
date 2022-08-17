@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.iot.relay.model.UserData;
 import com.iot.relay.model.UserDataEntity;
-import com.iot.relay.repo.UserDataRepository;
+import com.iot.relay.repository.UserDataRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {

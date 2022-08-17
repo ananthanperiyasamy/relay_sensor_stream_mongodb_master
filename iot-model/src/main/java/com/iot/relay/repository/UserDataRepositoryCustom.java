@@ -1,4 +1,4 @@
-package com.iot.relay.repo;
+package com.iot.relay.repository;
 
 import com.iot.relay.model.UserDataEntity;
 

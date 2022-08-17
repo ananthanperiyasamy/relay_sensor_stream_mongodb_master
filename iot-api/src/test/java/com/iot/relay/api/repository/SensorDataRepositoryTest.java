@@ -21,7 +21,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import com.iot.relay.config.MongoConfiguration;
 import com.iot.relay.constants.SensorConstant;
 import com.iot.relay.model.SensorDataEntity;
-import com.iot.relay.repo.SensorDataRepository;
+import com.iot.relay.repository.SensorDataRepository;
 
 @DataMongoTest(properties = { "spring.profiles.active=test", "local.server.port=27017" })
 @AutoConfigureDataMongo

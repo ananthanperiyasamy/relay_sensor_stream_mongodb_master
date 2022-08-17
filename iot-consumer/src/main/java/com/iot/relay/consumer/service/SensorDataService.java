@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.iot.relay.consumer.mapper.SensorDataMapper;
 import com.iot.relay.model.SensorData;
-import com.iot.relay.model.SensorDataEntity;
-import com.iot.relay.repo.SensorDataRepository;
+import com.iot.relay.repository.SensorDataRepository;
 
 @Service
 public class SensorDataService {
@@ -21,8 +20,7 @@ public class SensorDataService {
 	 * @param sensorDataEntity
 	 */
 	public void save(SensorData sensorData) {
-		SensorDataEntity sensorDataEntity = sensorDataMapper.fromEventToEntity(sensorData);
-		sensorDataRepository.save(sensorDataEntity);
+		sensorDataRepository.save(sensorDataMapper.fromEventToEntity(sensorData));
 	}
 
 }

@@ -24,7 +24,6 @@ public class IOTConsumer {
 	public Consumer<SensorData> iotdata() {
 		log.info("Listerner started");
 		return (sensorData -> {
-			log.error("Data received :" + sensorData.getId() + " "+sensorData.getClusterId()+ " "+sensorData.getTimestamp());
 			sensorDataService.save(sensorData);
 		});
 	}

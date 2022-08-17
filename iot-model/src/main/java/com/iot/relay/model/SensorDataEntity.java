@@ -24,13 +24,13 @@ public class SensorDataEntity {
 
 	@Field(targetType = FieldType.DECIMAL128)
 	private BigDecimal value;
-
+	@Field("timestamp")
 	private OffsetDateTime timestamp;
-	
+	@Field("type")
 	private String type;
-	
+	@Field("name")
 	private String name;
-	
+	@Field("clusterId")
 	private Long clusterId;
 
 }
