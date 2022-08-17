@@ -2,7 +2,6 @@ package com.iot.relay.repository.impl;
 
 import java.math.BigDecimal;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
@@ -15,13 +14,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.ConditionalOperators;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import com.iot.relay.constants.IOTConstant;
+import org.bson.Document;
 import com.iot.relay.exception.SensorCustomException;
 import com.iot.relay.model.IOTDataEntity;
 import com.iot.relay.repository.IOTDataRepositoryCustom;
@@ -40,43 +40,54 @@ public class IOTDataRepositoryCustomImpl implements IOTDataRepositoryCustom {
 	public IOTDataRepositoryCustomImpl(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
-
+	/**
+	 * Method to find the minimum value from stored IOT data
+	 */
 	@Override
 	public BigDecimal fetchMinimumValue(Long clusterId, String eventType, OffsetDateTime startDate,
 			OffsetDateTime endDate, String operationType) throws SensorCustomException {
 		MatchOperation filterData = createMatchOperation(clusterId, eventType, startDate, endDate);
-		GroupOperation groupByValue = group().min("value").as(operationType);
+		GroupOperation groupByValue = group().min(IOTConstant.MONGO_VALUE_FIELD).as(operationType);
 		Aggregation aggregation = newAggregation(filterData, groupByValue);
 
 		return executeMongoQuery(aggregation, operationType);
 	}
 
+	/**
+	 * Method to find the maximum value from stored IOT data
+	 */
 	@Override
 	public BigDecimal fetchMaximumValue(Long clusterId, String eventType, OffsetDateTime startDate,
 			OffsetDateTime endDate, String operationType) throws SensorCustomException {
 		MatchOperation filterData = createMatchOperation(clusterId, eventType, startDate, endDate);
-		GroupOperation groupByValue = group().max("value").as(operationType);
+		GroupOperation groupByValue = group().max(IOTConstant.MONGO_VALUE_FIELD).as(operationType);
 		Aggregation aggregation = newAggregation(filterData, groupByValue);
 
 		return executeMongoQuery(aggregation, operationType);
 	}
 
+	/**
+	 * Method to find the average value from stored IOT data
+	 */
 	@Override
 	public BigDecimal fetchAverageValue(Long clusterId, String eventType, OffsetDateTime startDate,
 			OffsetDateTime endDate, String operationType) throws SensorCustomException {
 		MatchOperation filterData = createMatchOperation(clusterId, eventType, startDate, endDate);
-		GroupOperation groupByValue = group().avg("value").as(operationType);
+		GroupOperation groupByValue = group().avg(IOTConstant.MONGO_VALUE_FIELD).as(operationType);
 		Aggregation aggregation = newAggregation(filterData, groupByValue);
 
 		return executeMongoQuery(aggregation, operationType);
 	}
 
+	/**
+	 * Method to find the middle value from stored IOT data
+	 */
 	@Override
 	public BigDecimal fetchMedianValue(Long clusterId, String eventType, OffsetDateTime startDate,
 			OffsetDateTime endDate, String operationType) throws SensorCustomException {
 		BigDecimal result = BigDecimal.ZERO;
 		MatchOperation filterData = createMatchOperation(clusterId, eventType, startDate, endDate);
-		SortOperation sort = Aggregation.sort(Sort.Direction.ASC, "value");
+		SortOperation sort = Aggregation.sort(Sort.Direction.ASC,IOTConstant.MONGO_VALUE_FIELD);
 
 		Aggregation aggregation = newAggregation(filterData, sort);
 		AggregationResults<IOTDataEntity> aggregationResults = mongoTemplate.aggregate(aggregation,
@@ -100,13 +111,13 @@ public class IOTDataRepositoryCustomImpl implements IOTDataRepositoryCustom {
 	 * clusterId and eventType are optional and skip these fields when its empty
 	 */
 	private MatchOperation createMatchOperation(Long clusterId, String eventType, OffsetDateTime startDate,OffsetDateTime endDate) {
-		Criteria baseCriteria = new Criteria().andOperator(Criteria.where("timestamp").gte(startDate).lte(endDate));
+		Criteria baseCriteria = new Criteria().andOperator(Criteria.where(IOTConstant.TIMESTAMP).gte(startDate).lte(endDate));
 
 		if (clusterId != null && eventType == null) {
-			baseCriteria.and("clusterId").is(clusterId);
+			baseCriteria.and(IOTConstant.CLUSTER_ID).is(clusterId);
 		}
 		else if (clusterId == null && eventType != null) {
-			baseCriteria.and("type").is(eventType);
+			baseCriteria.and(IOTConstant.TYPE).is(eventType);
 		}
 		return Aggregation.match(baseCriteria);
 	}
@@ -115,8 +126,8 @@ public class IOTDataRepositoryCustomImpl implements IOTDataRepositoryCustom {
 	 * Generic method to execute the mongoTemplate.aggregate execution
 	 */
 	private BigDecimal executeMongoQuery(Aggregation aggregation,String operationType) {
-		AggregationResults<org.bson.Document> aggregationResults = mongoTemplate.aggregate(aggregation,
-				IOTConstant.SENSOR_COLLECTION_NAME, org.bson.Document.class);
+		AggregationResults<Document> aggregationResults = mongoTemplate.aggregate(aggregation,
+				IOTConstant.SENSOR_COLLECTION_NAME, Document.class);
 		if (aggregationResults.getRawResults().isEmpty()) {
 			throw new SensorCustomException("Result not found");
 		} else {

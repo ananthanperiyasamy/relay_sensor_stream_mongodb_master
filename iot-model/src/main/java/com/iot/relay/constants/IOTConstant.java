@@ -20,4 +20,12 @@ public class IOTConstant {
 	 
 	 public static final String FORWARD_SLASH =  "/";
 	 
+	 public static final String MONGO_VALUE_FIELD =  "value";
+	 
+	 public static final String TIMESTAMP =  "timestamp";
+	 
+	 public static final String CLUSTER_ID =  "clusterId";
+	 
+	 public static final String TYPE =  "type";
+	 
 }
