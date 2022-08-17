@@ -22,6 +22,15 @@
  - Sensor event producer  https://github.com/operations-relay42/iot-producer-simulator-api 
  - Java 11
 
+## Running in maven
+Go to application root folder in command prompt and run **mvn clean install -Dmaven.test.skip=true** (TO DO - yet to fix few test case errors)
+
+**Run the application locally**
+
+```curlrc
+- Go to iot-api module and run mvn spring-boot:run
+- Go to iot-consumer module and run mvn spring-boot:run
+````
  ## Running with Docker 
 - Install docker: https://docs.docker.com/engine/install/
 - Go to project root folder and run the docker compose file
@@ -38,6 +47,7 @@ The IOT consumer starts on docker at localhost:8081 using the default profile. T
 ## Limitation
  - The startDateTime and endDateTime should be in YYYY-MM-DD or YYYY/MM/DD format now.This should be imporoved to support more formats.
  - In case of any failure, current application returning technical error message to user which should be improved.
+ - Fix issue in junits.
  
 ## API URL and response
 The API specification in [JSON](https://github.com/ananthanperiyasamy/relay_sensor_stream_mongodb/blob/main/reference/iot-api.json) and in [YAML](https://github.com/ananthanperiyasamy/relay_sensor_stream_mongodb/blob/main/reference/openapi.yaml) 
