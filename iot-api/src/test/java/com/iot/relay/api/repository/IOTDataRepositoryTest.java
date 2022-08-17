@@ -31,7 +31,7 @@ public class IOTDataRepositoryTest {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	@Autowired
-	private IOTDataRepository sensorDataRepository;
+	private IOTDataRepository iotDataRepository;
 
 	@BeforeEach
 	public void initDataBase() {
@@ -40,17 +40,16 @@ public class IOTDataRepositoryTest {
 
 	@AfterEach
 	public void deleteDataBase() {
-		sensorDataRepository.deleteAll();
+		iotDataRepository.deleteAll();
 	}
 
 	/**
 	 * Method to test
-	 * {@link SensorDataRepositoryCustomImpl#findMinValueByClusterIdAndTypeAndTimestamp(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
+	 * {@link IOTDataRepositoryCustomImpl#fetchMinimumValue(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
 	 */
-
 	@Test
-	public void findMinValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.fetchMinimumValue(1l, "HUMIDITY",
+	public void fetchMinimumValue() {
+		BigDecimal result = iotDataRepository.fetchMinimumValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
 				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MINIMUM);
 		assertEquals(result.toString(), "111111", "result should be 1");
@@ -59,12 +58,12 @@ public class IOTDataRepositoryTest {
 
 	/**
 	 * Method to test
-	 * {@link SensorDataRepositoryCustomImpl#findMaxValueByClusterIdAndTypeAndTimestamp(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
+	 * {@link IOTDataRepositoryCustomImpl#fetchMaximumValue(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
 	 */
 
 	@Test
-	public void findMaxValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.fetchMaximumValue(1l, "HUMIDITY",
+	public void fetchMaximumValue() {
+		BigDecimal result = iotDataRepository.fetchMaximumValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
 				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MAXIMUM);
 		assertEquals(result.toString(), "444444", "result should be 4");
@@ -73,12 +72,12 @@ public class IOTDataRepositoryTest {
 
 	/**
 	 * Method to test
-	 * {@link SensorDataRepositoryCustomImpl#findAverageValueByClusterIdAndTypeAndTimestamp(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
+	 * {@link IOTDataRepositoryCustomImpl#fetchAverageValue(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
 	 */
 
 	@Test
-	public void findAverageValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.fetchAverageValue(1l, "HUMIDITY",
+	public void fetchAverageValue() {
+		BigDecimal result = iotDataRepository.fetchAverageValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
 				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_AVERAGE);
 		assertEquals(result.toString(), "277777.5");
@@ -87,12 +86,12 @@ public class IOTDataRepositoryTest {
 
 	/**
 	 * Method to test
-	 * {@link SensorDataRepositoryCustomImpl#findMedianValueByClusterIdAndTypeAndTimestamp(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
+	 * {@link IOTDataRepositoryCustomImpl#fetchMedianValue(Long, String, java.time.OffsetDateTime, java.time.OffsetDateTime)}
 	 */
 
 	@Test
-	public void findMedianValueByClusterIdAndTypeAndTimestamp() {
-		BigDecimal result = sensorDataRepository.fetchMedianValue(1l, "HUMIDITY",
+	public void fetchMedianValue() {
+		BigDecimal result = iotDataRepository.fetchMedianValue(1l, "HUMIDITY",
 				OffsetDateTime.parse("2022-08-01T18:18:55.479998Z"),
 				OffsetDateTime.parse("2022-12-01T12:18:55.356996Z"),IOTConstant.SENSOR_OPERATION_MEDIAN);
 		assertEquals(result.toString(), "333333");

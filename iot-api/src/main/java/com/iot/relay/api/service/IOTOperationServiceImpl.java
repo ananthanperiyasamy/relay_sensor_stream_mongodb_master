@@ -14,7 +14,7 @@ import com.iot.relay.repository.IOTDataRepository;
 public class IOTOperationServiceImpl implements IOTOperationService {
 
 	@Autowired
-	private IOTDataRepository sensorDataRepository;
+	private IOTDataRepository iotDataRepository;
 
 	/**
 	 * Execute the specified operation type
@@ -44,7 +44,7 @@ public class IOTOperationServiceImpl implements IOTOperationService {
 
 	@Override
 	public BigDecimal fetchMinimumValue(QueryRequest request,String operationType) throws DataAccessException {
-		return sensorDataRepository.fetchMinimumValue(
+		return iotDataRepository.fetchMinimumValue(
 				request.getClusterId(),
 				request.getEventType(), 
 				ApplicationUtils.convertStringToOffsetDateTime(request.getStartDateTime()),
@@ -54,7 +54,7 @@ public class IOTOperationServiceImpl implements IOTOperationService {
 
 	@Override
 	public BigDecimal fetchAverageValue(QueryRequest request,String operationType) throws DataAccessException {
-		return sensorDataRepository.fetchAverageValue(
+		return iotDataRepository.fetchAverageValue(
 				request.getClusterId(),
 				request.getEventType(), 
 				ApplicationUtils.convertStringToOffsetDateTime(request.getStartDateTime()),
@@ -64,7 +64,7 @@ public class IOTOperationServiceImpl implements IOTOperationService {
 
 	@Override
 	public BigDecimal fetchMaximumValue(QueryRequest request,String operationType) throws DataAccessException {
-		return sensorDataRepository.fetchMaximumValue(
+		return iotDataRepository.fetchMaximumValue(
 				request.getClusterId(),
 				request.getEventType(), 
 				ApplicationUtils.convertStringToOffsetDateTime(request.getStartDateTime()),
@@ -74,7 +74,7 @@ public class IOTOperationServiceImpl implements IOTOperationService {
 
 	@Override
 	public BigDecimal fetchMedianValue(QueryRequest request,String operationType) throws DataAccessException {
-		return sensorDataRepository.fetchMedianValue(
+		return iotDataRepository.fetchMedianValue(
 				request.getClusterId(),
 				request.getEventType(), 
 				ApplicationUtils.convertStringToOffsetDateTime(request.getStartDateTime()),

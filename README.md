@@ -44,13 +44,15 @@ It will start:
 
 The IOT consumer starts on docker at localhost:8081 using the default profile. The sensor data API starts on docker at localhost:8082 using the default profile.
 
-## Limitation
+## Limitations
  - The startDateTime and endDateTime should be in YYYY-MM-DD or YYYY/MM/DD format now.This should be imporoved to support more formats.
  - In case of any failure, current application returning technical error message to user which should be improved.
  - Fix issue in junits.
  
 ## API URL and response
 The API specification in [JSON](https://github.com/ananthanperiyasamy/relay_sensor_stream_mongodb/blob/main/reference/iot-api.json) and in [YAML](https://github.com/ananthanperiyasamy/relay_sensor_stream_mongodb/blob/main/reference/openapi.yaml) 
+
+Find the API docs in application url http://localhost:8082/swagger-ui.html
 
 **Create/Registor user**
 
@@ -99,7 +101,7 @@ curl --location --request GET 'http://localhost:8082/query/mac?startDateTime=202
 ````
 ![image](https://user-images.githubusercontent.com/48526042/184963422-41a746f9-6c3f-4d9c-899a-09c0a3c5c320.png)
 
-**Operation to find Middle**
+**Operation to find Median**
 ```curlrc
 curl --location --request GET 'http://localhost:8082/query/median?startDateTime=2022-01-14&endDateTime=2022-08-14&eventType=HUMIDITY&clusterId=1'
 --header "Authorization: Bearer << TOKEN FROM AUTHENTICATE API>>"

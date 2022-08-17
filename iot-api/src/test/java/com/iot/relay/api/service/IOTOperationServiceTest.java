@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.iot.relay.api.request.QueryRequest;
+import com.iot.relay.constants.IOTConstant;
 
 /**
  * 
@@ -24,20 +25,29 @@ public class IOTOperationServiceTest {
 	private IOTOperationService sensorOperation;
 
 	@Test
-	public void testExecuteSuccess() {
+	public void testMinimumExecute() {
 		when(sensorOperation.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
-		BigDecimal result = sensorOperation.execute("min", new QueryRequest());
+		BigDecimal result = sensorOperation.execute(IOTConstant.SENSOR_OPERATION_MINIMUM, new QueryRequest());
+		assertEquals(result, BigDecimal.ONE, "Result be 1.");
+	}
+	@Test
+	public void testMaximumExecute() {
+		when(sensorOperation.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
+		BigDecimal result = sensorOperation.execute(IOTConstant.SENSOR_OPERATION_MAXIMUM, new QueryRequest());
+		assertEquals(result, BigDecimal.ONE, "Result be 1.");
+	}
+	@Test
+	public void testAverageExecuteSuccess() {
+		when(sensorOperation.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
+		BigDecimal result = sensorOperation.execute(IOTConstant.SENSOR_OPERATION_AVERAGE, new QueryRequest());
+		assertEquals(result, BigDecimal.ONE, "Result be 1.");
+	}
+	@Test
+	public void testMedianExecuteSuccess() {
+		when(sensorOperation.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
+		BigDecimal result = sensorOperation.execute(IOTConstant.SENSOR_OPERATION_MEDIAN, new QueryRequest());
 		assertEquals(result, BigDecimal.ONE, "Result be 1.");
 	}
 
-	/*@Test
-	public void testExecuteAndExpectNotSupportedOperationException() {
-		when(sensorOperation.execute(anyString(), any(QueryRequest.class))).thenReturn(BigDecimal.ONE);
-		SensorCustomException thrown = Assertions.assertThrows(SensorCustomException.class, () -> {
-			sensorOperation.execute("newOperation", new QueryRequest());
-		},"SensorCustomException was expected");
-
-	  Assertions.assertEquals("SensorCustomException was expected", thrown.getMessage());
-	}*/
 
 }

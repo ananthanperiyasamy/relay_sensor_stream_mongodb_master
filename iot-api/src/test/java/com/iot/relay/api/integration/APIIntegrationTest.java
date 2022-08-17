@@ -47,14 +47,14 @@ public class APIIntegrationTest {
 	TestRestTemplate restTemplate;
 
 	@Autowired
-	private IOTDataRepository sensorDataRepository;
+	private IOTDataRepository iotDataRepository;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@Test
 	public void testMinWithClusterIdAndTypeSuccess() {
-		initTable(sensorDataRepository);
+		initTable(iotDataRepository);
 		QueryRequest request = new QueryRequest();
 		request.setClusterId(1l);
 		request.setEventType("TEMPERATURE");
@@ -75,7 +75,7 @@ public class APIIntegrationTest {
 
 	@Test
 	public void testMaxWithClusterIdAndTypeSuccess() {
-		initTable(sensorDataRepository);
+		initTable(iotDataRepository);
 		QueryRequest request = new QueryRequest();
 		request.setClusterId(1l);
 		request.setEventType("TEMPERATURE");
@@ -96,7 +96,7 @@ public class APIIntegrationTest {
 	
 	@Test
 	public void testMedianWithClusterIdAndTypeSuccess() {
-		initTable(sensorDataRepository);
+		initTable(iotDataRepository);
 		QueryRequest request = new QueryRequest();
 		request.setClusterId(1l);
 		request.setEventType("TEMPERATURE");
@@ -128,26 +128,26 @@ public class APIIntegrationTest {
 	 * 
 	 * @param sensorDataRepository repository where data needs to be stored
 	 */
-	public static void initTable(IOTDataRepository sensorDataRepository) {
+	public static void initTable(IOTDataRepository iotDataRepository) {
 		IOTDataEntity entity1 = IOTDataEntity.builder().id(1l).clusterId(1l).type("TEMPERATURE")
 				.name("Living Room Temp").value(new BigDecimal("111111"))
 				.timestamp(OffsetDateTime.parse("2022-08-14T18:18:55.479998Z")).build();
-		sensorDataRepository.save(entity1);
+		iotDataRepository.save(entity1);
 
 		IOTDataEntity entity2 = IOTDataEntity.builder().id(1l).clusterId(1l).type("TEMPERATURE")
 				.name("Living Room Temp").value(new BigDecimal("222222"))
 				.timestamp(OffsetDateTime.parse("2022-08-14T18:18:57.479998Z")).build();
-		sensorDataRepository.save(entity2);
+		iotDataRepository.save(entity2);
 
 		IOTDataEntity entity3 = IOTDataEntity.builder().id(1l).clusterId(1l).type("TEMPERATURE")
 				.name("Living Room Temp").value(new BigDecimal("333333"))
 				.timestamp(OffsetDateTime.parse("2022-08-14T18:18:58.479998Z")).build();
-		sensorDataRepository.save(entity3);
+		iotDataRepository.save(entity3);
 
 		IOTDataEntity entity4 = IOTDataEntity.builder().id(1l).clusterId(1l).type("TEMPERATURE")
 				.name("Living Room Temp").value(new BigDecimal("444444"))
 				.timestamp(OffsetDateTime.parse("2022-08-14T18:18:59.479998Z")).build();
-		sensorDataRepository.save(entity4);
+		iotDataRepository.save(entity4);
 	}
 
 }
